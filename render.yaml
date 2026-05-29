@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: silvas-frango-assado
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TZ
+        value: America/Sao_Paulo
+      - key: DATA_DIR
+        value: /var/data
+      - key: STORE_NAME
+        value: Silva's Frango Assado
+      - key: STORE_ADDRESS
+        value: Avenida Paraguassú 2038, Bairro Mariluz, Imbé-RS
+      - key: STORE_WHATSAPP
+        value: "5551998859501"
+      - key: ADMIN_PASSWORD
+        sync: false
+    disk:
+      name: silvas-data
+      mountPath: /var/data
+      sizeGB: 1

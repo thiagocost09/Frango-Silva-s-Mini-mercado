@@ -1,0 +1,202 @@
+[
+  {
+    "id": "3af3d305-d9cc-4dc3-b598-d7515d74048d",
+    "orderNumber": "RC-20260528-0001",
+    "status": "completed",
+    "customer": {
+      "name": "thiago",
+      "phone": "(51) 98162-5848"
+    },
+    "pickupDate": "2026-05-28",
+    "pickupTime": "12:00",
+    "items": [
+      {
+        "id": "1",
+        "name": "Frango Clássico",
+        "description": "Assado por 2 horas, marinado em ervas finas e limão siciliano. Serve até 3 pessoas.",
+        "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+        "category": "Principal",
+        "price": 58.9,
+        "quantity": 1,
+        "lineTotal": 58.9
+      }
+    ],
+    "subtotal": 58.9,
+    "total": 58.9,
+    "payment": {
+      "method": "pickup",
+      "status": "pending",
+      "label": "Pague na retirada"
+    },
+    "store": {
+      "name": "Silva's Frango Assado",
+      "address": "Avenida Paraguassú 2038, Bairro Mariluz, Imbé-RS",
+      "whatsapp": "5551998859501",
+      "currency": "BRL"
+    },
+    "notes": "",
+    "whatsappUrl": "https://wa.me/5551998859501?text=Ol%C3%A1!%20Segue%20o%20resumo%20do%20meu%20pedido%20%23RC-20260528-0001%3A%0A%0ANome%3A%20thiago%0AHor%C3%A1rio%20de%20retirada%3A%2012%3A00%0A%0AItens%3A%0A-%201x%20Frango%20Cl%C3%A1ssico%20(R%24%C2%A058%2C90)%0A%0ATotal%3A%20R%24%C2%A058%2C90",
+    "createdAt": "2026-05-29T00:44:17.511Z",
+    "updatedAt": "2026-05-29T01:14:22.679Z"
+  },
+  {
+    "id": "71f522cf-e03a-4544-8363-c3399834c4cf",
+    "orderNumber": "RC-20260528-0002",
+    "status": "completed",
+    "customer": {
+      "name": "teste",
+      "phone": "(51) 99999-9999"
+    },
+    "pickupDate": "2026-05-28",
+    "pickupTime": "12:00",
+    "items": [
+      {
+        "id": "7c9ad29b-01fa-4742-98e7-ec77515901c6",
+        "name": "Frango assado com polenta",
+        "description": "Frango assado deliciosamente no ponto e suculento\nacompanha 10 pedaços de polenta",
+        "image": "https://receitadaboa.com.br/wp-content/uploads/2024/07/Imagem-ilustrativa-de-frango-assado-1.webp",
+        "category": "Principal",
+        "price": 55,
+        "quantity": 5,
+        "lineTotal": 275
+      }
+    ],
+    "subtotal": 275,
+    "total": 275,
+    "payment": {
+      "method": "pickup",
+      "status": "pending",
+      "label": "Pague na retirada"
+    },
+    "store": {
+      "name": "Silva's Frango Assado",
+      "address": "Avenida Paraguassú 2038, Bairro Mariluz, Imbé-RS",
+      "whatsapp": "5551998859501",
+      "currency": "BRL"
+    },
+    "notes": "",
+    "whatsappUrl": "https://wa.me/5551998859501?text=Ol%C3%A1!%20Segue%20o%20resumo%20do%20meu%20pedido%20%23RC-20260528-0002%3A%0A%0ANome%3A%20teste%0AHor%C3%A1rio%20de%20retirada%3A%2012%3A00%0A%0AItens%3A%0A-%205x%20Frango%20assado%20com%20polenta%20(R%24%C2%A0275%2C00)%0A%0ATotal%3A%20R%24%C2%A0275%2C00",
+    "createdAt": "2026-05-29T01:16:12.836Z",
+    "updatedAt": "2026-05-29T01:33:06.523Z"
+  },
+  {
+    "id": "e80af630-abfe-41cf-8c0f-113bc08a53ea",
+    "orderNumber": "RC-20260528-0003",
+    "status": "completed",
+    "customer": {
+      "name": "teste1",
+      "phone": "(51) 99999-9999"
+    },
+    "pickupDate": "2026-05-28",
+    "pickupTime": "12:00",
+    "items": [
+      {
+        "id": "7c9ad29b-01fa-4742-98e7-ec77515901c6",
+        "name": "Frango assado com polenta",
+        "description": "Frango assado deliciosamente no ponto e suculento\nacompanha 10 pedaços de polenta",
+        "image": "https://receitadaboa.com.br/wp-content/uploads/2024/07/Imagem-ilustrativa-de-frango-assado-1.webp",
+        "category": "Principal",
+        "price": 55,
+        "quantity": 1,
+        "lineTotal": 55
+      }
+    ],
+    "subtotal": 55,
+    "total": 55,
+    "payment": {
+      "method": "pickup",
+      "status": "pending",
+      "label": "Pague na retirada"
+    },
+    "store": {
+      "name": "Silva's Frango Assado",
+      "address": "Avenida Paraguassú 2038, Bairro Mariluz, Imbé-RS",
+      "whatsapp": "5551998859501",
+      "currency": "BRL"
+    },
+    "notes": "",
+    "whatsappUrl": "https://wa.me/5551998859501?text=Ol%C3%A1!%20Segue%20o%20resumo%20do%20meu%20pedido%20%23RC-20260528-0003%3A%0A%0ANome%3A%20teste1%0AHor%C3%A1rio%20de%20retirada%3A%2012%3A00%0A%0AItens%3A%0A-%201x%20Frango%20assado%20com%20polenta%20(R%24%C2%A055%2C00)%0A%0ATotal%3A%20R%24%C2%A055%2C00",
+    "createdAt": "2026-05-29T01:25:21.223Z",
+    "updatedAt": "2026-05-29T01:33:05.533Z"
+  },
+  {
+    "id": "81acb535-8366-4730-952a-4c875c64d155",
+    "orderNumber": "RC-20260528-0004",
+    "status": "completed",
+    "customer": {
+      "name": "teste",
+      "phone": "(51) 99999-9999"
+    },
+    "pickupDate": "2026-05-28",
+    "pickupTime": "12:00",
+    "items": [
+      {
+        "id": "7c9ad29b-01fa-4742-98e7-ec77515901c6",
+        "name": "Frango assado com polenta",
+        "description": "Frango assado deliciosamente no ponto e suculento\nacompanha 10 pedaços de polenta",
+        "image": "https://receitadaboa.com.br/wp-content/uploads/2024/07/Imagem-ilustrativa-de-frango-assado-1.webp",
+        "category": "Principal",
+        "price": 55,
+        "quantity": 1,
+        "lineTotal": 55
+      }
+    ],
+    "subtotal": 55,
+    "total": 55,
+    "payment": {
+      "method": "pickup",
+      "status": "pending",
+      "label": "Pague na retirada"
+    },
+    "store": {
+      "name": "Silva's Frango Assado",
+      "address": "Avenida Paraguassú 2038, Bairro Mariluz, Imbé-RS",
+      "whatsapp": "5551998859501",
+      "currency": "BRL"
+    },
+    "notes": "",
+    "whatsappUrl": "https://wa.me/5551998859501?text=Ol%C3%A1!%20Segue%20o%20resumo%20do%20meu%20pedido%20%23RC-20260528-0004%3A%0A%0ANome%3A%20teste%0AHor%C3%A1rio%20de%20retirada%3A%2012%3A00%0A%0AItens%3A%0A-%201x%20Frango%20assado%20com%20polenta%20(R%24%C2%A055%2C00)%0A%0ATotal%3A%20R%24%C2%A055%2C00",
+    "createdAt": "2026-05-29T01:31:00.450Z",
+    "updatedAt": "2026-05-29T01:33:04.613Z"
+  },
+  {
+    "id": "8b374261-ad17-4788-8ee8-4cbd7e5a31ee",
+    "orderNumber": "RC-20260528-0005",
+    "status": "completed",
+    "customer": {
+      "name": "teste",
+      "phone": "(51) 99999-9999"
+    },
+    "pickupDate": "2026-05-28",
+    "pickupTime": "18:00",
+    "items": [
+      {
+        "id": "7c9ad29b-01fa-4742-98e7-ec77515901c6",
+        "name": "Frango assado com polenta",
+        "description": "Frango assado deliciosamente no ponto e suculento\nacompanha 10 pedaços de polenta",
+        "image": "https://receitadaboa.com.br/wp-content/uploads/2024/07/Imagem-ilustrativa-de-frango-assado-1.webp",
+        "category": "Principal",
+        "price": 55,
+        "quantity": 1,
+        "lineTotal": 55
+      }
+    ],
+    "subtotal": 55,
+    "total": 55,
+    "payment": {
+      "method": "pickup",
+      "status": "pending",
+      "label": "Pague na retirada"
+    },
+    "store": {
+      "name": "Silva's Frango Assado",
+      "address": "Avenida Paraguassú 2038, Bairro Mariluz, Imbé-RS",
+      "whatsapp": "5551998859501",
+      "currency": "BRL"
+    },
+    "notes": "",
+    "whatsappUrl": "https://wa.me/5551998859501?text=Ol%C3%A1!%20Segue%20o%20resumo%20do%20meu%20pedido%20%23RC-20260528-0005%3A%0A%0ANome%3A%20teste%0AHor%C3%A1rio%20de%20retirada%3A%2018%3A00%0A%0AItens%3A%0A-%201x%20Frango%20assado%20com%20polenta%20(R%24%C2%A055%2C00)%0A%0ATotal%3A%20R%24%C2%A055%2C00",
+    "createdAt": "2026-05-29T01:33:37.553Z",
+    "updatedAt": "2026-05-29T01:52:20.766Z"
+  }
+]

@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Epilogue", sans-serif;
+
+  --color-brand-yellow: #FFD719;
+  --color-brand-yellow-soft: #FFF4A8;
+  --color-brand-red: #E50914;
+  --color-brand-black: #111318;
+  --color-primary-dark: #111318;
+  --color-primary-rustic: #E50914;
+  --color-surface-warm: #FFF4A8;
+}
+
+@layer base {
+  body {
+    @apply bg-[#fff8c9] text-[#111318] font-sans;
+  }
+  
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  .admin-input {
+    @apply w-full bg-white border border-yellow-200 rounded-lg px-4 py-2.5 focus:ring-primary-rustic focus:border-primary-rustic transition-all outline-none;
+  }
+}
+
+.rustic-shadow {
+  box-shadow: 0 10px 30px -5px rgba(229, 9, 20, 0.12);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e2beba;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #8e706d;
+}

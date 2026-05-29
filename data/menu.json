@@ -1,0 +1,103 @@
+[
+  {
+    "id": "7c9ad29b-01fa-4742-98e7-ec77515901c6",
+    "name": "Frango assado com polenta",
+    "price": 55,
+    "description": "Frango assado deliciosamente no ponto e suculento\nacompanha 10 pedaços de polenta",
+    "image": "https://receitadaboa.com.br/wp-content/uploads/2024/07/Imagem-ilustrativa-de-frango-assado-1.webp",
+    "category": "Principal",
+    "tag": "MAIS PEDIDO",
+    "available": true,
+    "stock": 64
+  },
+  {
+    "id": "29253d4f-8962-4342-b794-8c440b472818",
+    "name": "Porção de polenta",
+    "price": 10,
+    "description": "Polenta deliciosa C/10 pedaços",
+    "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+    "category": "Acompanhamento",
+    "available": true,
+    "stock": 20
+  },
+  {
+    "id": "b99d8dbb-35fa-4031-b3b3-c92a88be387b",
+    "name": "Costela de gado",
+    "price": 65,
+    "description": "produto por KG terá que ser pesado no momento da retirada",
+    "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+    "category": "Principal",
+    "available": true,
+    "stock": 3
+  },
+  {
+    "id": "681a34d3-330a-4731-ac73-6c6eddc759ec",
+    "name": "Vazio da costela",
+    "price": 95,
+    "description": "produto por KG terá que ser pesado no momento da retirada",
+    "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+    "category": "Principal",
+    "available": true,
+    "stock": 3
+  },
+  {
+    "id": "11b1f485-61c3-426f-b0a2-d909c2dffdcb",
+    "name": "Costela de porco",
+    "price": 65,
+    "description": "produto por KG terá que ser pesado no momento da retirada",
+    "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+    "category": "Principal",
+    "available": true,
+    "stock": 3
+  },
+  {
+    "id": "bbcdb89f-26db-43d9-9cd2-11a9be859e93",
+    "name": "Sobre coxa de frango",
+    "price": 40,
+    "description": "produto por KG terá que ser pesado no momento da retirada",
+    "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+    "category": "Acompanhamento",
+    "available": true,
+    "stock": 20
+  },
+  {
+    "id": "6e1db84f-c66c-46bd-9282-81ce51b1786f",
+    "name": "Maminha",
+    "price": 95,
+    "description": "produto por KG terá que ser pesado no momento da retirada",
+    "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+    "category": "Principal",
+    "available": true,
+    "stock": 3
+  },
+  {
+    "id": "5a70da66-7570-42fd-be7d-fa92331f2523",
+    "name": "Salsichão",
+    "price": 5,
+    "description": "UNI",
+    "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+    "category": "Acompanhamento",
+    "available": true,
+    "stock": 5
+  },
+  {
+    "id": "544707e4-0e15-42ff-9e01-643f859e9eb9",
+    "name": "Linguiça",
+    "price": 5,
+    "description": "UNI",
+    "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+    "category": "Acompanhamento",
+    "available": true,
+    "stock": 0
+  },
+  {
+    "id": "74d2eba6-f832-4650-aa26-131a5c9ead6b",
+    "name": "Salada de Maionese",
+    "price": 10,
+    "description": "Maionese caseira",
+    "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800",
+    "category": "Acompanhamento",
+    "available": true,
+    "stock": 5
+  }
+]
