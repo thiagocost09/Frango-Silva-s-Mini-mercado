@@ -24,48 +24,61 @@ export const CartScreen: React.FC<CartScreenProps> = ({ items, onUpdateQuantity,
         </div>
 
         <div className="space-y-6">
-          {items.map((item) => (
-            <motion.div 
-              key={item.id}
-              layout
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-white shadow-sm rounded-2xl overflow-hidden flex border border-stone-100 group transition-all hover:rustic-shadow"
-            >
-              <div className="w-24 h-24 md:w-32 md:h-32 shrink-0">
-                <img className="w-full h-full object-cover" src={item.image} alt={item.name} />
-              </div>
-              <div className="p-4 md:p-6 flex flex-col justify-between flex-grow">
-                <div>
-                  <div className="flex justify-between items-start">
-                    <h3 className="text-base md:text-lg font-bold text-stone-800">{item.name}</h3>
-                    <span className="text-primary-rustic font-bold text-sm md:text-base">R$ {item.price.toFixed(2).replace('.', ',')}</span>
-                  </div>
-                  <p className="text-stone-400 text-xs md:text-sm mt-1 line-clamp-2">
-                    {item.description}
-                  </p>
+          {items.map((item) => {
+            const stock = stockOf(item);
+            const reachedLimit = item.quantity >= stock;
+
+            return (
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="bg-white shadow-sm rounded-2xl overflow-hidden flex border border-stone-100 group transition-all hover:rustic-shadow"
+              >
+                <div className="w-24 h-24 md:w-32 md:h-32 shrink-0">
+                  <img className="w-full h-full object-cover" src={item.image} alt={item.name} />
                 </div>
-                
-                <div className="flex items-center justify-between mt-2">
-                  <div className="flex items-center gap-3 bg-stone-50 rounded-lg p-1">
-                    <button 
-                      onClick={() => onUpdateQuantity(item.id, -1)}
-                      className="p-1 hover:bg-white rounded-md transition-colors text-stone-400"
-                    >
-                      <Minus className="w-3 h-3" />
-                    </button>
-                    <span className="font-bold text-stone-700 min-w-[20px] text-center text-sm">{item.quantity}</span>
-                    <button 
-                       onClick={() => onUpdateQuantity(item.id, 1)}
-                      className="p-1 hover:bg-white rounded-md transition-colors text-stone-400"
-                    >
-                      <Plus className="w-3 h-3" />
-                    </button>
+                <div className="p-4 md:p-6 flex flex-col justify-between flex-grow min-w-0">
+                  <div>
+                    <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-start">
+                      <h3 className="text-base md:text-lg font-bold text-stone-800 leading-tight">{item.name}</h3>
+                      <span className="text-primary-rustic font-bold text-sm md:text-base whitespace-nowrap">R$ {item.price.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <p className="text-stone-400 text-xs md:text-sm mt-1 line-clamp-2">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-2 mt-2">
+                    <div className="flex items-center gap-3 bg-stone-50 rounded-lg p-1">
+                      <button
+                        onClick={() => onUpdateQuantity(item.id, -1)}
+                        className="p-1 hover:bg-white rounded-md transition-colors text-stone-400"
+                        aria-label={`Remover uma unidade de ${item.name}`}
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="font-bold text-stone-700 min-w-[20px] text-center text-sm">{item.quantity}</span>
+                      <button
+                        onClick={() => onUpdateQuantity(item.id, 1)}
+                        disabled={reachedLimit}
+                        className={`p-1 rounded-md transition-colors ${
+                          reachedLimit ? 'text-stone-300 cursor-not-allowed' : 'text-stone-400 hover:bg-white'
+                        }`}
+                        aria-label={`Adicionar uma unidade de ${item.name}`}
+                      >
+                        <Plus className="w-3 h-3" />
+                      </button>
+                    </div>
+                    <span className="text-[11px] font-bold text-stone-400 uppercase tracking-wide">
+                      {stockLabel(stock)}
+                    </span>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
@@ -99,3 +112,16 @@ export const CartScreen: React.FC<CartScreenProps> = ({ items, onUpdateQuantity,
     </div>
   );
 };
+
+function stockOf(item: CartItem) {
+  const stock = Number(item.stock);
+  return Number.isFinite(stock) ? Math.max(0, Math.floor(stock)) : 0;
+}
+
+function stockLabel(stock: number) {
+  if (stock === 1) {
+    return '1 un. disponível';
+  }
+
+  return `${stock} un. disponíveis`;
+}

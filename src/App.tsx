@@ -52,14 +52,26 @@ export default function App() {
 
   const cartCount = useMemo(() => cartItems.reduce((sum, item) => sum + item.quantity, 0), [cartItems]);
   const cartTotal = useMemo(() => cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0), [cartItems]);
+  const cartQuantities = useMemo<Record<string, number>>(() => (
+    cartItems.reduce<Record<string, number>>((quantities, item) => {
+      quantities[item.id] = item.quantity;
+      return quantities;
+    }, {})
+  ), [cartItems]);
 
   const handleAddToCart = (item: MenuItem) => {
     setCartItems((prev) => {
+      const stock = stockOf(item);
+
+      if (stock <= 0) {
+        return prev;
+      }
+
       const existing = prev.find((cartItem) => cartItem.id === item.id);
 
       if (existing) {
         return prev.map((cartItem) => (
-          cartItem.id === item.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+          cartItem.id === item.id ? { ...cartItem, quantity: Math.min(stock, cartItem.quantity + 1) } : cartItem
         ));
       }
 
@@ -72,7 +84,7 @@ export default function App() {
       const updated = prev
         .map((item) => {
           if (item.id === id) {
-            return { ...item, quantity: Math.max(0, item.quantity + delta) };
+            return { ...item, quantity: Math.min(stockOf(item), Math.max(0, item.quantity + delta)) };
           }
 
           return item;
@@ -150,6 +162,7 @@ export default function App() {
             onAddToCart={handleAddToCart}
             cartCount={cartCount}
             cartTotal={cartTotal}
+            cartQuantities={cartQuantities}
             onViewCart={() => setCurrentStep('cart')}
           />
         );
@@ -225,4 +238,9 @@ export default function App() {
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : 'Algo deu errado. Tente novamente.';
+}
+
+function stockOf(item: MenuItem) {
+  const stock = Number(item.stock);
+  return Number.isFinite(stock) ? Math.max(0, Math.floor(stock)) : 0;
 }

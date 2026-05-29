@@ -2,7 +2,7 @@ services:
   - type: web
     name: silvas-frango-assado
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
@@ -11,8 +11,6 @@ services:
         value: production
       - key: TZ
         value: America/Sao_Paulo
-      - key: DATA_DIR
-        value: /var/data
       - key: STORE_NAME
         value: Silva's Frango Assado
       - key: STORE_ADDRESS
@@ -21,7 +19,7 @@ services:
         value: "5551998859501"
       - key: ADMIN_PASSWORD
         sync: false
-    disk:
-      name: silvas-data
-      mountPath: /var/data
-      sizeGB: 1
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false

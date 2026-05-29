@@ -30,34 +30,40 @@ npm start
 
 O Express serve os arquivos de `dist/` e mantém as rotas da API no mesmo domínio.
 
-## Publicar no Render
+## Publicar no Render com Supabase grátis
 
-Este projeto já inclui `render.yaml` para criar um Web Service Node no Render.
+Este projeto já inclui `render.yaml` para criar um Web Service Node no Render usando o plano grátis. Os dados persistentes ficam no Supabase, não no disco do Render.
+
+### 1. Criar o banco no Supabase
+
+1. Crie um projeto em `https://supabase.com`.
+2. Abra `SQL Editor`.
+3. Cole e execute o conteúdo de `supabase/schema.sql`.
+4. Em `Project Settings > Data API`, copie o `Project URL`.
+5. Em `Project Settings > API Keys`, copie a `service_role` ou `secret` key. Use essa chave apenas no Render, nunca no frontend.
+
+### 2. Configurar o Render
 
 1. Suba este projeto para um repositório no GitHub.
-2. No Render, crie um novo Blueprint ou Web Service apontando para esse repositório.
-3. Use os comandos:
+2. No Render, crie um novo `Blueprint` apontando para esse repositório.
+3. O Render vai ler `render.yaml`.
+4. Configure as variáveis secretas:
 
    ```text
-   Build Command: npm ci && npm run build
-   Start Command: npm start
-   ```
-
-4. Configure as variáveis de ambiente:
-
-   ```text
-   NODE_ENV=production
-   TZ=America/Sao_Paulo
-   DATA_DIR=/var/data
-   STORE_NAME=Silva's Frango Assado
-   STORE_ADDRESS=Avenida Paraguassú 2038, Bairro Mariluz, Imbé-RS
-   STORE_WHATSAPP=5551998859501
    ADMIN_PASSWORD=troque-esta-senha
+   SUPABASE_URL=https://SEU-PROJETO.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=sua-chave-service-role-ou-secret
    ```
 
-5. Anexe um disco persistente no caminho `/var/data`. Sem esse disco, os pedidos salvos em JSON podem ser perdidos quando o serviço reiniciar ou for redeployado.
+O `render.yaml` já configura:
 
-Na primeira inicialização com `DATA_DIR=/var/data`, o backend copia o cardápio e os horários padrão de `data/` para o disco persistente e cria `orders.json` vazio.
+```text
+Build Command: npm ci && npm run build
+Start Command: npm start
+Plan: free
+```
+
+Na primeira inicialização com Supabase vazio, o backend copia o cardápio e os horários padrão de `data/` para o banco. Depois disso, pedidos, produtos, horários, estoque e fotos ficam salvos no Supabase.
 
 ## Painel Admin
 
@@ -99,4 +105,6 @@ O painel administrativo permite:
 - `DELETE /api/admin/time-slots/:time`
 - `GET /api/orders/:orderNumber?phone=11999999999`
 
-Os pedidos são gravados em `data/orders.json`. O backend recalcula preços pelo cardápio do servidor, valida telefone, horário e quantidade, e retorna o número real do pedido usado na tela final.
+Em produção, os dados são gravados no Supabase quando `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` estão configurados. Localmente, se essas variáveis ficarem vazias, o backend usa os arquivos JSON em `data/`.
+
+O backend recalcula preços pelo cardápio do servidor, valida telefone, horário e quantidade, e retorna o número real do pedido usado na tela final.
