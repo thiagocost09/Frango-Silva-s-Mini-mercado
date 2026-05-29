@@ -11,6 +11,7 @@ import {
   LogOut,
   Package,
   Plus,
+  Printer,
   RefreshCw,
   Search,
   Settings,
@@ -291,6 +292,24 @@ export const AdminPanel: React.FC = () => {
     } finally {
       setUpdatingOrder('');
     }
+  };
+
+  const handlePrintTicket = (order: ConfirmedOrder) => {
+    const ticketWindow = window.open('', 'silvas-frango-ticket', 'width=420,height=720');
+
+    if (!ticketWindow) {
+      setError('Permita pop-ups no navegador para imprimir o ticket.');
+      return;
+    }
+
+    ticketWindow.document.open();
+    ticketWindow.document.write(buildTicketHtml(order));
+    ticketWindow.document.close();
+    ticketWindow.focus();
+
+    window.setTimeout(() => {
+      ticketWindow.print();
+    }, 250);
   };
 
   const handleProductSubmit = async (event: React.FormEvent) => {
@@ -633,6 +652,7 @@ export const AdminPanel: React.FC = () => {
                 onNextPage={() => setOrderPage((page) => Math.min(orderPageCount, page + 1))}
                 updatingOrder={updatingOrder}
                 onStatusChange={handleStatusChange}
+                onPrintTicket={handlePrintTicket}
               />
             )}
 
@@ -861,6 +881,7 @@ const OrdersPanel: React.FC<{
   onNextPage: () => void;
   updatingOrder: string;
   onStatusChange: (order: ConfirmedOrder, status: OrderStatus) => void;
+  onPrintTicket: (order: ConfirmedOrder) => void;
 }> = ({
   orders,
   query,
@@ -880,6 +901,7 @@ const OrdersPanel: React.FC<{
   onNextPage,
   updatingOrder,
   onStatusChange,
+  onPrintTicket,
 }) => (
   <div className={`${isFullList ? 'col-span-12' : 'col-span-12 md:col-span-7'} bg-white rounded-xl shadow-[0_4px_20px_rgba(229,9,20,0.10)] border border-yellow-200 overflow-hidden`}>
     <div className="p-6 border-b border-yellow-200 bg-brand-yellow-soft/60 space-y-4">
@@ -955,6 +977,13 @@ const OrdersPanel: React.FC<{
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => onPrintTicket(order)}
+                    className="px-3 py-1.5 bg-white border border-yellow-200 text-slate-700 text-xs font-bold rounded-lg hover:text-primary-rustic hover:border-primary-rustic transition-colors inline-flex items-center gap-1.5"
+                  >
+                    <Printer className="w-3.5 h-3.5" />
+                    Ticket
+                  </button>
                   {order.status !== 'ready' && order.status !== 'completed' && (
                     <button
                       onClick={() => onStatusChange(order, 'ready')}
@@ -1390,6 +1419,162 @@ function formatCurrency(value: number) {
     style: 'currency',
     currency: 'BRL',
   });
+}
+
+function buildTicketHtml(order: ConfirmedOrder) {
+  const printedAt = new Date();
+  const pickupAt = pickupDateTime(order);
+  const pickupLabel = pickupAt
+    ? `${pickupAt.toLocaleDateString('pt-BR')} ${order.pickupTime}`
+    : order.pickupTime;
+  const items = order.items.map((item) => `
+    <div class="item">
+      <div class="item-name">${escapeHtml(`${item.quantity} - ${item.name}`)}</div>
+      <div class="item-total">${escapeHtml(formatCurrency(item.lineTotal))}</div>
+    </div>
+  `).join('');
+
+  return `<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Ticket ${escapeHtml(order.orderNumber)}</title>
+  <style>
+    @page {
+      size: 80mm auto;
+      margin: 4mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: #000;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .ticket {
+      width: 72mm;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      text-align: center;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 2px 0;
+    }
+
+    .separator {
+      border-top: 1px dashed #000;
+      margin: 8px 0;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin: 5px 0;
+    }
+
+    .item-name {
+      overflow-wrap: anywhere;
+    }
+
+    .item-total {
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .total {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .muted {
+      font-size: 11px;
+    }
+
+    @media screen {
+      body {
+        padding: 16px;
+      }
+
+      .ticket {
+        border: 1px solid #ddd;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="ticket">
+    <h1>${escapeHtml(order.store?.name || BRAND_NAME)}</h1>
+    <div class="separator"></div>
+    <div class="row">
+      <span>Pedido</span>
+      <strong>#${escapeHtml(order.orderNumber)}</strong>
+    </div>
+    <div class="row">
+      <span>Data</span>
+      <span>${escapeHtml(formatTicketDateTime(printedAt))}</span>
+    </div>
+    <div class="row">
+      <span>Retirada</span>
+      <span>${escapeHtml(pickupLabel)}</span>
+    </div>
+    <div class="separator"></div>
+    <div class="center muted">ITENS</div>
+    ${items}
+    <div class="separator"></div>
+    <div class="row total">
+      <span>Total</span>
+      <span>${escapeHtml(formatCurrency(order.total))}</span>
+    </div>
+    <div class="separator"></div>
+    <div class="center muted">Impresso pelo painel administrativo</div>
+  </main>
+</body>
+</html>`;
+}
+
+function formatTicketDateTime(date: Date) {
+  return date.toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function escapeHtml(value: string) {
+  const replacements: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  };
+
+  return value.replace(/[&<>"']/g, (char) => replacements[char]);
 }
 
 function csvCell(value: string) {
