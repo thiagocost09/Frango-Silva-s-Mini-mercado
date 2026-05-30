@@ -1504,9 +1504,12 @@ function buildTicketHtml(order: ConfirmedOrder) {
       margin: 0;
       background: #fff;
       color: #000;
-      font-family: "Courier New", Courier, monospace;
-      font-size: 12px;
-      line-height: 1.25;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.3;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
     }
 
     .ticket {
@@ -1517,7 +1520,8 @@ function buildTicketHtml(order: ConfirmedOrder) {
     h1 {
       margin: 0 0 8px;
       text-align: center;
-      font-size: 15px;
+      font-size: 16px;
+      font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0;
     }
@@ -1531,10 +1535,11 @@ function buildTicketHtml(order: ConfirmedOrder) {
       justify-content: space-between;
       gap: 8px;
       margin: 2px 0;
+      font-weight: 900;
     }
 
     .separator {
-      border-top: 1px dashed #000;
+      border-top: 2px dashed #000;
       margin: 8px 0;
     }
 
@@ -1543,24 +1548,28 @@ function buildTicketHtml(order: ConfirmedOrder) {
       grid-template-columns: 1fr auto;
       gap: 8px;
       margin: 5px 0;
+      font-weight: 900;
     }
 
     .item-name {
       overflow-wrap: anywhere;
+      font-weight: 900;
     }
 
     .item-total {
       white-space: nowrap;
       text-align: right;
+      font-weight: 900;
     }
 
     .total {
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 15px;
+      font-weight: 900;
     }
 
     .muted {
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 900;
     }
 
     @media screen {
