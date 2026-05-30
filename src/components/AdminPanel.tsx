@@ -1531,7 +1531,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
       background: #fff;
       color: #000;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
+      font-size: 11.3px;
       font-weight: 900;
       line-height: 1.32;
       print-color-adjust: exact;
@@ -1539,8 +1539,8 @@ function buildTicketHtml(order: ConfirmedOrder) {
     }
 
     .ticket {
-      width: 38mm;
-      margin-left: 10mm;
+      width: 42mm;
+      margin-left: 8mm;
       margin-right: 0;
       padding: 1mm 0;
     }
@@ -1548,7 +1548,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
     h1 {
       margin: 0 0 6px;
       text-align: center;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0;
@@ -1580,7 +1580,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
 
     .separator {
       border-top: 2px dashed #000;
-      margin: 7px 0;
+      margin: 6px 0;
     }
 
     .item {
@@ -1590,7 +1590,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
     }
 
     .item-name {
-      text-align: left;
+      text-align: center;
       overflow-wrap: anywhere;
       font-weight: 900;
     }
