@@ -1475,9 +1475,9 @@ function formatCurrency(value: number) {
 function buildTicketHtml(order: ConfirmedOrder) {
   const printedAt = new Date();
   const pickupAt = pickupDateTime(order);
-  const pickupLabel = pickupAt
-    ? `${pickupAt.toLocaleDateString('pt-BR')} ${order.pickupTime}`
-    : order.pickupTime;
+  const printedDate = printedAt.toLocaleDateString('pt-BR');
+  const printedTime = printedAt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  const pickupDateLabel = pickupAt ? pickupAt.toLocaleDateString('pt-BR') : order.pickupDate;
   const items = order.items.map((item) => `
     <div class="item">
       <div class="item-name">${escapeHtml(`${item.quantity} - ${item.name}`)}</div>
@@ -1492,8 +1492,8 @@ function buildTicketHtml(order: ConfirmedOrder) {
   <title>Ticket ${escapeHtml(order.orderNumber)}</title>
   <style>
     @page {
-      size: 80mm auto;
-      margin: 4mm;
+      size: 58mm auto;
+      margin: 0;
     }
 
     * {
@@ -1505,7 +1505,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
       background: #fff;
       color: #000;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 900;
       line-height: 1.3;
       print-color-adjust: exact;
@@ -1513,17 +1513,19 @@ function buildTicketHtml(order: ConfirmedOrder) {
     }
 
     .ticket {
-      width: 72mm;
+      width: 50mm;
       margin: 0 auto;
+      padding: 0 3mm;
     }
 
     h1 {
       margin: 0 0 8px;
       text-align: center;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0;
+      overflow-wrap: anywhere;
     }
 
     .center {
@@ -1531,11 +1533,16 @@ function buildTicketHtml(order: ConfirmedOrder) {
     }
 
     .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      margin: 2px 0;
+      display: grid;
+      grid-template-columns: 19mm minmax(0, 1fr);
+      gap: 4px;
+      margin: 3px 0;
       font-weight: 900;
+    }
+
+    .row-value {
+      text-align: right;
+      overflow-wrap: anywhere;
     }
 
     .separator {
@@ -1545,9 +1552,9 @@ function buildTicketHtml(order: ConfirmedOrder) {
 
     .item {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-      margin: 5px 0;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px;
+      margin: 6px 0;
       font-weight: 900;
     }
 
@@ -1563,7 +1570,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
     }
 
     .total {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 900;
     }
 
@@ -1579,7 +1586,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
 
       .ticket {
         border: 1px solid #ddd;
-        padding: 12px;
+        padding: 12px 16px;
       }
     }
   </style>
@@ -1590,15 +1597,19 @@ function buildTicketHtml(order: ConfirmedOrder) {
     <div class="separator"></div>
     <div class="row">
       <span>Pedido</span>
-      <strong>#${escapeHtml(order.orderNumber)}</strong>
+      <strong class="row-value">#${escapeHtml(order.orderNumber)}</strong>
     </div>
     <div class="row">
       <span>Data</span>
-      <span>${escapeHtml(formatTicketDateTime(printedAt))}</span>
+      <span class="row-value">${escapeHtml(printedDate)}</span>
+    </div>
+    <div class="row">
+      <span>Hora</span>
+      <span class="row-value">${escapeHtml(printedTime)}</span>
     </div>
     <div class="row">
       <span>Retirada</span>
-      <span>${escapeHtml(pickupLabel)}</span>
+      <span class="row-value">${escapeHtml(pickupDateLabel)} ${escapeHtml(order.pickupTime)}</span>
     </div>
     <div class="separator"></div>
     <div class="center muted">ITENS</div>
@@ -1606,23 +1617,13 @@ function buildTicketHtml(order: ConfirmedOrder) {
     <div class="separator"></div>
     <div class="row total">
       <span>Total</span>
-      <span>${escapeHtml(formatCurrency(order.total))}</span>
+      <span class="row-value">${escapeHtml(formatCurrency(order.total))}</span>
     </div>
     <div class="separator"></div>
     <div class="center muted">Impresso pelo painel administrativo</div>
   </main>
 </body>
 </html>`;
-}
-
-function formatTicketDateTime(date: Date) {
-  return date.toLocaleString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 }
 
 function escapeHtml(value: string) {
