@@ -1531,23 +1531,24 @@ function buildTicketHtml(order: ConfirmedOrder) {
       background: #fff;
       color: #000;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 900;
-      line-height: 1.28;
+      line-height: 1.32;
       print-color-adjust: exact;
       -webkit-print-color-adjust: exact;
     }
 
     .ticket {
-      width: 44mm;
-      margin: 0 auto;
+      width: 38mm;
+      margin-left: 10mm;
+      margin-right: 0;
       padding: 1mm 0;
     }
 
     h1 {
       margin: 0 0 6px;
       text-align: center;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0;
@@ -1560,15 +1561,20 @@ function buildTicketHtml(order: ConfirmedOrder) {
     }
 
     .row {
-      display: grid;
-      grid-template-columns: 15mm minmax(0, 1fr);
-      gap: 4px;
-      margin: 3px 0;
+      display: block;
+      margin: 5px 0;
       font-weight: 900;
     }
 
+    .row-label {
+      display: block;
+      text-align: center;
+      font-size: 10px;
+    }
+
     .row-value {
-      text-align: right;
+      display: block;
+      text-align: center;
       overflow-wrap: anywhere;
     }
 
@@ -1584,19 +1590,21 @@ function buildTicketHtml(order: ConfirmedOrder) {
     }
 
     .item-name {
+      text-align: left;
       overflow-wrap: anywhere;
       font-weight: 900;
     }
 
     .item-total {
-      text-align: right;
+      text-align: center;
       font-weight: 900;
       margin-top: 2px;
     }
 
     .total {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 900;
+      text-align: center;
     }
 
     .muted {
@@ -1611,7 +1619,9 @@ function buildTicketHtml(order: ConfirmedOrder) {
 
       .ticket {
         border: 1px solid #ddd;
-        padding: 12px 16px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 12px 18px;
       }
     }
   </style>
@@ -1624,15 +1634,15 @@ function buildTicketHtml(order: ConfirmedOrder) {
     <div class="center">${escapeHtml(`#${order.orderNumber}`)}</div>
     <div class="separator"></div>
     <div class="row">
-      <span>Data</span>
+      <span class="row-label">DATA</span>
       <span class="row-value">${escapeHtml(printedDate)}</span>
     </div>
     <div class="row">
-      <span>Hora</span>
+      <span class="row-label">HORA</span>
       <span class="row-value">${escapeHtml(printedTime)}</span>
     </div>
     <div class="row">
-      <span>Retirada</span>
+      <span class="row-label">RETIRADA</span>
       <span class="row-value">${escapeHtml(pickupDateLabel)} ${escapeHtml(order.pickupTime)}</span>
     </div>
     <div class="separator"></div>
@@ -1640,7 +1650,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
     ${items}
     <div class="separator"></div>
     <div class="row total">
-      <span>Total</span>
+      <span class="row-label">TOTAL</span>
       <span class="row-value">${escapeHtml(formatCurrency(order.total))}</span>
     </div>
     <div class="separator"></div>
