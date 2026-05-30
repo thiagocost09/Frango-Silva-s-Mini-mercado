@@ -109,6 +109,7 @@ export const AdminPanel: React.FC = () => {
   const [timeSlots, setTimeSlots] = useState<string[]>([]);
   const [query, setQuery] = useState('');
   const [orderStatusFilter, setOrderStatusFilter] = useState<OrderStatusFilter>('all');
+  const [selectedOrderDate, setSelectedOrderDate] = useState(() => todayDateInputValue());
   const [orderPage, setOrderPage] = useState(1);
   const [now, setNow] = useState(() => Date.now());
   const [productForm, setProductForm] = useState<ProductFormState>(EMPTY_PRODUCT);
@@ -191,10 +192,14 @@ export const AdminPanel: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, password, soundEnabled]);
 
+  const dateOrders = useMemo(() => (
+    orders.filter((order) => order.pickupDate === selectedOrderDate)
+  ), [orders, selectedOrderDate]);
+
   const filteredOrders = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
-    return orders.filter((order) => {
+    return dateOrders.filter((order) => {
       const matchesStatus = orderStatusFilter === 'all'
         || (orderStatusFilter === 'late' ? isLateOrder(order, now) : order.status === orderStatusFilter);
       const matchesQuery = !normalizedQuery
@@ -204,7 +209,7 @@ export const AdminPanel: React.FC = () => {
 
       return matchesStatus && matchesQuery;
     });
-  }, [now, orderStatusFilter, orders, query]);
+  }, [dateOrders, now, orderStatusFilter, query]);
 
   const filteredMenu = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -220,23 +225,23 @@ export const AdminPanel: React.FC = () => {
   }, [activeSection, menuItems, query]);
 
   const totals = useMemo(() => {
-    const activeOrders = orders.filter((order) => order.status !== 'cancelled');
-    const pendingOrders = orders.filter((order) => isPendingOrder(order)).length;
-    const lateOrders = orders.filter((order) => isLateOrder(order, now)).length;
+    const activeOrders = dateOrders.filter((order) => order.status !== 'cancelled');
+    const pendingOrders = dateOrders.filter((order) => isPendingOrder(order)).length;
+    const lateOrders = dateOrders.filter((order) => isLateOrder(order, now)).length;
 
     return {
-      totalOrders: orders.length,
+      totalOrders: dateOrders.length,
       pendingOrders,
       lateOrders,
-      readyOrders: orders.filter((order) => order.status === 'ready').length,
+      readyOrders: dateOrders.filter((order) => order.status === 'ready').length,
       revenue: activeOrders.reduce((sum, order) => sum + order.total, 0),
       lowStock: menuItems.filter((item) => stockOf(item) <= 10).length,
     };
-  }, [menuItems, now, orders]);
+  }, [dateOrders, menuItems, now]);
 
   useEffect(() => {
     setOrderPage(1);
-  }, [activeSection, orderStatusFilter, query]);
+  }, [activeSection, orderStatusFilter, query, selectedOrderDate]);
 
   const orderPageCount = Math.max(1, Math.ceil(filteredOrders.length / ORDER_PAGE_SIZE));
   const currentOrderPage = Math.min(orderPage, orderPageCount);
@@ -637,6 +642,9 @@ export const AdminPanel: React.FC = () => {
                 orders={recentOrders}
                 query={query}
                 onQueryChange={setQuery}
+                selectedDate={selectedOrderDate}
+                onSelectedDateChange={setSelectedOrderDate}
+                onTodayClick={() => setSelectedOrderDate(todayDateInputValue())}
                 statusFilter={orderStatusFilter}
                 onStatusFilterChange={setOrderStatusFilter}
                 isFullList={activeSection === 'orders'}
@@ -644,7 +652,7 @@ export const AdminPanel: React.FC = () => {
                 pageCount={orderPageCount}
                 pageSize={ORDER_PAGE_SIZE}
                 filteredCount={filteredOrders.length}
-                totalCount={orders.length}
+                totalCount={dateOrders.length}
                 pendingCount={totals.pendingOrders}
                 lateCount={totals.lateOrders}
                 now={now}
@@ -866,6 +874,9 @@ const OrdersPanel: React.FC<{
   orders: ConfirmedOrder[];
   query: string;
   onQueryChange: (query: string) => void;
+  selectedDate: string;
+  onSelectedDateChange: (date: string) => void;
+  onTodayClick: () => void;
   statusFilter: OrderStatusFilter;
   onStatusFilterChange: (status: OrderStatusFilter) => void;
   isFullList: boolean;
@@ -886,6 +897,9 @@ const OrdersPanel: React.FC<{
   orders,
   query,
   onQueryChange,
+  selectedDate,
+  onSelectedDateChange,
+  onTodayClick,
   statusFilter,
   onStatusFilterChange,
   isFullList,
@@ -912,10 +926,25 @@ const OrdersPanel: React.FC<{
             {isFullList ? 'Pedidos' : 'Pedidos recentes'}
           </h3>
           <p className="mt-1 text-xs font-bold uppercase tracking-widest text-slate-500">
-            {pendingCount} pendentes · {lateCount} atrasados · {filteredCount} exibidos de {totalCount}
+            {formatDateLabel(selectedDate)} · {pendingCount} pendentes · {lateCount} atrasados · {filteredCount} exibidos de {totalCount}
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex gap-2">
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(event) => onSelectedDateChange(event.target.value || todayDateInputValue())}
+              className="w-full sm:w-40 bg-white border border-yellow-200 rounded-lg text-sm px-3 py-2 font-bold text-slate-600 outline-none focus:ring-primary-rustic focus:border-primary-rustic"
+              aria-label="Filtrar pedidos por data"
+            />
+            <button
+              onClick={onTodayClick}
+              className="px-3 py-2 bg-white border border-yellow-200 rounded-lg text-xs font-bold text-slate-600 hover:text-primary-rustic hover:border-primary-rustic"
+            >
+              Hoje
+            </button>
+          </div>
           <div className="relative">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
@@ -1366,6 +1395,28 @@ function productFromForm(form: ProductFormState): Omit<MenuItem, 'id'> {
 
 function stockOf(item: MenuItem) {
   return Number.isInteger(Number(item.stock)) ? Number(item.stock) : 0;
+}
+
+function todayDateInputValue(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+function formatDateLabel(dateValue: string) {
+  const [year, month, day] = dateValue.split('-').map(Number);
+
+  if (![year, month, day].every(Number.isFinite)) {
+    return 'Data selecionada';
+  }
+
+  return new Date(year, month - 1, day).toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
 }
 
 function isPendingOrder(order: ConfirmedOrder) {
