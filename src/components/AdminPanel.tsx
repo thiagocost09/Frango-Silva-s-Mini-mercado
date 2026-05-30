@@ -1502,26 +1502,27 @@ function buildTicketHtml(order: ConfirmedOrder) {
 
     body {
       margin: 0;
+      width: 58mm;
       background: #fff;
       color: #000;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 900;
-      line-height: 1.3;
+      line-height: 1.28;
       print-color-adjust: exact;
       -webkit-print-color-adjust: exact;
     }
 
     .ticket {
-      width: 50mm;
+      width: 44mm;
       margin: 0 auto;
-      padding: 0 3mm;
+      padding: 1mm 0;
     }
 
     h1 {
-      margin: 0 0 8px;
+      margin: 0 0 6px;
       text-align: center;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0;
@@ -1530,11 +1531,12 @@ function buildTicketHtml(order: ConfirmedOrder) {
 
     .center {
       text-align: center;
+      overflow-wrap: anywhere;
     }
 
     .row {
       display: grid;
-      grid-template-columns: 19mm minmax(0, 1fr);
+      grid-template-columns: 15mm minmax(0, 1fr);
       gap: 4px;
       margin: 3px 0;
       font-weight: 900;
@@ -1547,14 +1549,12 @@ function buildTicketHtml(order: ConfirmedOrder) {
 
     .separator {
       border-top: 2px dashed #000;
-      margin: 8px 0;
+      margin: 7px 0;
     }
 
     .item {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 4px;
-      margin: 6px 0;
+      display: block;
+      margin: 7px 0;
       font-weight: 900;
     }
 
@@ -1564,18 +1564,18 @@ function buildTicketHtml(order: ConfirmedOrder) {
     }
 
     .item-total {
-      white-space: nowrap;
       text-align: right;
       font-weight: 900;
+      margin-top: 2px;
     }
 
     .total {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
     }
 
     .muted {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 900;
     }
 
@@ -1595,10 +1595,9 @@ function buildTicketHtml(order: ConfirmedOrder) {
   <main class="ticket">
     <h1>${escapeHtml(order.store?.name || BRAND_NAME)}</h1>
     <div class="separator"></div>
-    <div class="row">
-      <span>Pedido</span>
-      <strong class="row-value">#${escapeHtml(order.orderNumber)}</strong>
-    </div>
+    <div class="center muted">PEDIDO</div>
+    <div class="center">${escapeHtml(`#${order.orderNumber}`)}</div>
+    <div class="separator"></div>
     <div class="row">
       <span>Data</span>
       <span class="row-value">${escapeHtml(printedDate)}</span>
