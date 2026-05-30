@@ -1531,7 +1531,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
       background: #fff;
       color: #000;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 11.3px;
+      font-size: 12px;
       font-weight: 900;
       line-height: 1.32;
       print-color-adjust: exact;
@@ -1548,7 +1548,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
     h1 {
       margin: 0 0 6px;
       text-align: center;
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0;
@@ -1569,7 +1569,7 @@ function buildTicketHtml(order: ConfirmedOrder) {
     .row-label {
       display: block;
       text-align: center;
-      font-size: 10px;
+      font-size: 10.5px;
     }
 
     .row-value {
@@ -1602,13 +1602,13 @@ function buildTicketHtml(order: ConfirmedOrder) {
     }
 
     .total {
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 900;
       text-align: center;
     }
 
     .muted {
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 900;
     }
 
