@@ -870,6 +870,26 @@ const PickupSlotsPanel: React.FC<{
   </div>
 );
 
+type OrderCountTone = 'neutral' | 'warning' | 'danger' | 'info';
+
+const ORDER_COUNT_STYLES: Record<OrderCountTone, string> = {
+  neutral: 'bg-white border-yellow-300 text-slate-900',
+  warning: 'bg-yellow-300 border-yellow-500 text-slate-950',
+  danger: 'bg-red-600 border-red-700 text-white',
+  info: 'bg-slate-900 border-slate-950 text-white',
+};
+
+const OrderCountBadge: React.FC<{
+  label: string;
+  value: string;
+  tone: OrderCountTone;
+}> = ({ label, value, tone }) => (
+  <div className={`min-w-[92px] rounded-lg border px-3 py-2 shadow-sm ${ORDER_COUNT_STYLES[tone]}`}>
+    <p className="text-[10px] font-black uppercase tracking-wide leading-none opacity-80">{label}</p>
+    <p className="mt-1 text-base font-black leading-none">{value}</p>
+  </div>
+);
+
 const OrdersPanel: React.FC<{
   orders: ConfirmedOrder[];
   query: string;
@@ -925,9 +945,12 @@ const OrdersPanel: React.FC<{
             <ListOrdered className="w-5 h-5 text-primary-rustic" />
             {isFullList ? 'Pedidos' : 'Pedidos recentes'}
           </h3>
-          <p className="mt-1 text-xs font-bold uppercase tracking-widest text-slate-500">
-            {formatDateLabel(selectedDate)} · {pendingCount} pendentes · {lateCount} atrasados · {filteredCount} exibidos de {totalCount}
-          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <OrderCountBadge label="Data" value={formatDateLabel(selectedDate)} tone="neutral" />
+            <OrderCountBadge label="Pendentes" value={String(pendingCount)} tone={pendingCount > 0 ? 'warning' : 'neutral'} />
+            <OrderCountBadge label="Atrasados" value={String(lateCount)} tone={lateCount > 0 ? 'danger' : 'neutral'} />
+            <OrderCountBadge label="Exibidos" value={`${filteredCount}/${totalCount}`} tone="info" />
+          </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
           <div className="flex gap-2">
@@ -1006,13 +1029,15 @@ const OrdersPanel: React.FC<{
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => onPrintTicket(order)}
-                    className="px-3 py-1.5 bg-white border border-yellow-200 text-slate-700 text-xs font-bold rounded-lg hover:text-primary-rustic hover:border-primary-rustic transition-colors inline-flex items-center gap-1.5"
-                  >
-                    <Printer className="w-3.5 h-3.5" />
-                    Ticket
-                  </button>
+                  {order.status === 'completed' && (
+                    <button
+                      onClick={() => onPrintTicket(order)}
+                      className="px-3 py-1.5 bg-white border border-yellow-200 text-slate-700 text-xs font-bold rounded-lg hover:text-primary-rustic hover:border-primary-rustic transition-colors inline-flex items-center gap-1.5"
+                    >
+                      <Printer className="w-3.5 h-3.5" />
+                      Ticket
+                    </button>
+                  )}
                   {order.status !== 'ready' && order.status !== 'completed' && (
                     <button
                       onClick={() => onStatusChange(order, 'ready')}
